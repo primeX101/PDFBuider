@@ -1,0 +1,24 @@
+{
+  "name": "paperly-pdf-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "vite build", "preview": "vite preview" },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "docx": "latest",
+    "jspdf": "latest",
+    "jszip": "latest",
+    "lucide-react": "latest",
+    "mammoth": "latest",
+    "pdf-lib": "latest",
+    "pdfjs-dist": "latest",
+    "pptxgenjs": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tesseract.js": "latest",
+    "vite": "latest",
+    "xlsx": "latest"
+  },
+  "devDependencies": {}
+}

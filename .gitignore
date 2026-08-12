@@ -1,0 +1,6 @@
+node_modules
+dist
+scratch
+.tempmediaStorage
+.DS_Store
+*.log
