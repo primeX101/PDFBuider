@@ -164,12 +164,6 @@ export default function ToolWorkbench({ toolId }) {
                 })}
               </div>
             ))}
-            <div className="tool-sidebar-footer">
-              <Link to="/about">About</Link>
-              <Link to="/faq">FAQ</Link>
-              <Link to="/privacy-policy">Privacy</Link>
-              <Link to="/terms-of-service">Terms</Link>
-            </div>
           </aside>
           <main className="tool-main">
             <div className="tool-heading">
@@ -206,32 +200,35 @@ export default function ToolWorkbench({ toolId }) {
             {result && <ResultCard result={result} />}
           </main>
           <aside className="activity-panel">
-            <div className="side-tab-bar">
-              <button
-                type="button"
-                className={`side-tab-btn ${sideTab === 'guide' ? 'active' : ''}`}
-                onClick={() => setSideTab('guide')}
-              >
-                <BookOpen size={13} /> Guide
-              </button>
-              <button
-                type="button"
-                className={`side-tab-btn ${sideTab === 'faq' ? 'active' : ''}`}
-                onClick={() => setSideTab('faq')}
-              >
-                <HelpCircle size={13} /> FAQ
-              </button>
-              <button
-                type="button"
-                className={`side-tab-btn ${sideTab === 'activity' ? 'active' : ''}`}
-                onClick={() => setSideTab('activity')}
-              >
-                <Clock size={13} /> Activity
-                {selectedDocs.length > 0 && <span className="tab-pill">{selectedDocs.length}</span>}
-              </button>
+            <div className="activity-panel-header">
+              <div className="side-tab-bar">
+                <button
+                  type="button"
+                  className={`side-tab-btn ${sideTab === 'guide' ? 'active' : ''}`}
+                  onClick={() => setSideTab('guide')}
+                >
+                  <BookOpen size={13} /> Guide
+                </button>
+                <button
+                  type="button"
+                  className={`side-tab-btn ${sideTab === 'faq' ? 'active' : ''}`}
+                  onClick={() => setSideTab('faq')}
+                >
+                  <HelpCircle size={13} /> FAQ
+                </button>
+                <button
+                  type="button"
+                  className={`side-tab-btn ${sideTab === 'activity' ? 'active' : ''}`}
+                  onClick={() => setSideTab('activity')}
+                >
+                  <Clock size={13} /> Activity
+                  {selectedDocs.length > 0 && <span className="tab-pill">{selectedDocs.length}</span>}
+                </button>
+              </div>
             </div>
 
-            {sideTab === 'guide' ? (
+            <div className="activity-panel-body">
+              {sideTab === 'guide' ? (
               <div className="sidebar-guide">
                 <div className="guide-header">
                   <span className="tiny-kicker">{current.group}</span>
@@ -327,6 +324,7 @@ export default function ToolWorkbench({ toolId }) {
                 </div>
               </div>
             )}
+            </div>
           </aside>
         </div>
       </div>
