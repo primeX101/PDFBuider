@@ -5,6 +5,7 @@ import Footer from './Footer';
 
 export default function Layout() {
   const location = useLocation();
+  const isTool = location.pathname.startsWith('/tools');
 
   // Scroll to top on route change
   React.useEffect(() => {
@@ -15,7 +16,7 @@ export default function Layout() {
     <>
       <Navbar />
       <Outlet />
-      <Footer />
+      {!isTool && <Footer />}
     </>
   );
 }

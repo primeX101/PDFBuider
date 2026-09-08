@@ -6,6 +6,7 @@ export default function Navbar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const isHome = location.pathname === '/';
+  const isTool = location.pathname.startsWith('/tools');
 
   return (
     <nav className={isHome ? 'landing-nav' : 'landing-nav inner-nav'}>
@@ -24,11 +25,13 @@ export default function Navbar() {
         <Link to="/blog" onClick={() => setMobileOpen(false)}>Blog</Link>
       </div>
 
-      <div className="landing-actions">
-        <Link to="/tools/merge" className="start" onClick={() => setMobileOpen(false)}>
-          Get started <ArrowRight size={15} />
-        </Link>
-      </div>
+      {!isTool && (
+        <div className="landing-actions">
+          <Link to="/tools/merge" className="start" onClick={() => setMobileOpen(false)}>
+            Get started <ArrowRight size={15} />
+          </Link>
+        </div>
+      )}
 
       <button
         className="mobile-menu-toggle"

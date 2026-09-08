@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Check, ChevronRight, Clock, FileDown, FileText, GripVertical, Image, LayoutDashboard, LoaderCircle, LockKeyhole, MessageSquareText, MoreHorizontal, PanelRight, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, Trash2, Upload, WandSparkles, Zap } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ChevronDown, ChevronRight, Clock, FileDown, FileText, GripVertical, HelpCircle, Image, LayoutDashboard, LoaderCircle, LockKeyhole, MessageSquareText, MoreHorizontal, PanelRight, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, Trash2, Upload, WandSparkles, Zap } from 'lucide-react';
 import * as engine from '../pdfEngine';
 import FilePicker from './FilePicker';
 import ToolOptions from './ToolOptions';
@@ -164,6 +164,12 @@ export default function ToolWorkbench({ toolId }) {
                 })}
               </div>
             ))}
+            <div className="tool-sidebar-footer">
+              <Link to="/about">About</Link>
+              <Link to="/faq">FAQ</Link>
+              <Link to="/privacy-policy">Privacy</Link>
+              <Link to="/terms-of-service">Terms</Link>
+            </div>
           </aside>
           <main className="tool-main">
             <div className="tool-heading">
@@ -206,14 +212,21 @@ export default function ToolWorkbench({ toolId }) {
                 className={`side-tab-btn ${sideTab === 'guide' ? 'active' : ''}`}
                 onClick={() => setSideTab('guide')}
               >
-                <BookOpen size={14} /> Guide
+                <BookOpen size={13} /> Guide
+              </button>
+              <button
+                type="button"
+                className={`side-tab-btn ${sideTab === 'faq' ? 'active' : ''}`}
+                onClick={() => setSideTab('faq')}
+              >
+                <HelpCircle size={13} /> FAQ
               </button>
               <button
                 type="button"
                 className={`side-tab-btn ${sideTab === 'activity' ? 'active' : ''}`}
                 onClick={() => setSideTab('activity')}
               >
-                <Clock size={14} /> Activity
+                <Clock size={13} /> Activity
                 {selectedDocs.length > 0 && <span className="tab-pill">{selectedDocs.length}</span>}
               </button>
             </div>
@@ -255,9 +268,9 @@ export default function ToolWorkbench({ toolId }) {
                 </div>
 
                 {toolContent[active]?.faqs?.length > 0 && (
-                  <a href="#tool-faqs" className="guide-faq-link">
-                    Have questions? View FAQs below ↓
-                  </a>
+                  <button type="button" className="guide-faq-btn" onClick={() => setSideTab('faq')}>
+                    <HelpCircle size={13} /> View Frequently Asked Questions →
+                  </button>
                 )}
 
                 {selectedDocs.length > 0 && (
@@ -267,6 +280,34 @@ export default function ToolWorkbench({ toolId }) {
                     <ArrowRight size={12} />
                   </div>
                 )}
+              </div>
+            ) : sideTab === 'faq' ? (
+              <div className="sidebar-faq">
+                <div className="guide-header">
+                  <span className="tiny-kicker">{current.group}</span>
+                  <h3>{current.name} FAQs</h3>
+                  <p className="guide-desc">Common questions about {current.name}.</p>
+                </div>
+
+                {toolContent[active]?.faqs?.length > 0 ? (
+                  <div className="sidebar-faq-list">
+                    {toolContent[active].faqs.map((faq, i) => (
+                      <details key={i} className="sidebar-faq-item" open={i === 0}>
+                        <summary>
+                          <span>{faq.q}</span>
+                          <ChevronDown size={14} />
+                        </summary>
+                        <p>{faq.a}</p>
+                      </details>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-state">No FAQs available for this tool.</div>
+                )}
+
+                <div className="sidebar-faq-footer">
+                  <Link to="/faq" className="sidebar-faq-more">View General Help Center →</Link>
+                </div>
               </div>
             ) : (
               <div className="sidebar-activity">
