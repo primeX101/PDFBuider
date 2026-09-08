@@ -198,6 +198,30 @@ export default function ToolWorkbench({ toolId }) {
               )}
             </section>
             {result && <ResultCard result={result} />}
+
+            <div className="tool-highlights">
+              <div className="highlight-card">
+                <ShieldCheck size={18} />
+                <div>
+                  <b>100% Private Processing</b>
+                  <p>Processed locally inside your browser. No files are uploaded to any server.</p>
+                </div>
+              </div>
+              <div className="highlight-card">
+                <Zap size={18} />
+                <div>
+                  <b>Instant Execution</b>
+                  <p>No queue delays, no server upload caps, and zero waiting on cloud queues.</p>
+                </div>
+              </div>
+              <div className="highlight-card">
+                <Sparkles size={18} />
+                <div>
+                  <b>Full Document Fidelity</b>
+                  <p>Preserves original layout, typography, vector shapes, annotations, and bookmarks.</p>
+                </div>
+              </div>
+            </div>
           </main>
           <aside className="activity-panel">
             <div className="activity-panel-header">
