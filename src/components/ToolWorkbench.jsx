@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, ChevronRight, FileDown, FileText, GripVertical, Image, LayoutDashboard, LoaderCircle, LockKeyhole, MessageSquareText, MoreHorizontal, PanelRight, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, Trash2, Upload, WandSparkles, Zap } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, ChevronRight, Clock, FileDown, FileText, GripVertical, Image, LayoutDashboard, LoaderCircle, LockKeyhole, MessageSquareText, MoreHorizontal, PanelRight, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, Trash2, Upload, WandSparkles, Zap } from 'lucide-react';
 import * as engine from '../pdfEngine';
 import FilePicker from './FilePicker';
 import ToolOptions from './ToolOptions';
 import UploadModal from './UploadModal';
 import ResultCard from './ResultCard';
+import { toolContent } from '../data/toolContent';
 
 const groups = [
   { label: 'Organize', items: [['merge','Merge PDF','Combine multiple files into one'],['split','Split PDF','Extract selected pages'],['rotate','Rotate PDF','Turn pages in any direction'],['delete','Delete pages','Remove pages from a document'],['reorder','Reorder pages','Arrange pages your way']] },
@@ -38,6 +39,7 @@ export default function ToolWorkbench({ toolId }) {
   const [toast, setToast] = useState('');
   const [history, setHistory] = useState([]);
   const [result, setResult] = useState(null);
+  const [sideTab, setSideTab] = useState('guide');
   const [options, setOptions] = useState({
     range: '1-3', angle: '90', order: '', text: 'CONFIDENTIAL',
     signature: 'Aria Shah', page: '1', x: '48', y: '48',
@@ -58,6 +60,7 @@ export default function ToolWorkbench({ toolId }) {
   useEffect(() => {
     setResult(null);
     setChosen([]);
+    setSideTab('guide');
   }, [active]);
 
   const addFiles = async list => {
@@ -134,11 +137,10 @@ export default function ToolWorkbench({ toolId }) {
     <>
       <div className="app-shell">
         <header className="app-nav">
-          <Link to="/" className="brand">
-            <span className="brand-mark"><FileText size={18} /></span>paperly
-          </Link>
           <div className="crumb">
             <Link to="/">Home</Link>
+            <ChevronRight size={14} />
+            <Link to="/tools/merge">Tools</Link>
             <ChevronRight size={14} />
             <b>{current.name}</b>
           </div>
@@ -198,20 +200,92 @@ export default function ToolWorkbench({ toolId }) {
             {result && <ResultCard result={result} />}
           </main>
           <aside className="activity-panel">
-            <div className="activity-head"><b>Workspace activity</b><MoreHorizontal size={17} /></div>
-            <div className="privacy-note"><LockKeyhole size={16} /><span><b>Private by design</b>Files are processed locally in your browser. Nothing is uploaded to a server.</span></div>
-            <div className="file-summary">
-              <span>SELECTED FILES</span>
-              {selectedDocs.length ? selectedDocs.map(doc => (
-                <div key={doc.id}><FileText size={18} /><p><b>{doc.name}</b><small>{engine.formatBytes(doc.size)}{doc.pages ? ` · ${doc.pages} pages` : ''}</small></p></div>
-              )) : <div className="empty-state">No files selected yet.</div>}
+            <div className="side-tab-bar">
+              <button
+                type="button"
+                className={`side-tab-btn ${sideTab === 'guide' ? 'active' : ''}`}
+                onClick={() => setSideTab('guide')}
+              >
+                <BookOpen size={14} /> Guide
+              </button>
+              <button
+                type="button"
+                className={`side-tab-btn ${sideTab === 'activity' ? 'active' : ''}`}
+                onClick={() => setSideTab('activity')}
+              >
+                <Clock size={14} /> Activity
+                {selectedDocs.length > 0 && <span className="tab-pill">{selectedDocs.length}</span>}
+              </button>
             </div>
-            <div className="recent">
-              <span>RECENT OUTPUTS</span>
-              {history.length ? history.map(item => (
-                <div key={item.name + item.time}><FileDown size={15} /><p><b>{item.name}</b><small>{item.tool} · {item.time}</small></p></div>
-              )) : <div className="empty-state">Your completed files will appear here.</div>}
-            </div>
+
+            {sideTab === 'guide' ? (
+              <div className="sidebar-guide">
+                <div className="guide-header">
+                  <span className="tiny-kicker">{current.group}</span>
+                  <h3>{current.name}</h3>
+                  <p className="guide-desc">{current.description}. Processed locally in your browser.</p>
+                </div>
+
+                {toolContent[active]?.howTo && (
+                  <div className="guide-section">
+                    <h4>How to use</h4>
+                    <ol className="guide-steps">
+                      {toolContent[active].howTo.map((step, i) => (
+                        <li key={i}>
+                          <span className="step-badge">{i + 1}</span>
+                          <span className="step-text">{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+
+                {toolContent[active]?.longDescription && (
+                  <div className="guide-section guide-details">
+                    <h4>Overview</h4>
+                    {toolContent[active].longDescription.split('\n\n').slice(0, 2).map((para, i) => (
+                      <p key={i}>{para}</p>
+                    ))}
+                  </div>
+                )}
+
+                <div className="guide-privacy">
+                  <ShieldCheck size={14} />
+                  <span>100% Private — files never leave your browser</span>
+                </div>
+
+                {toolContent[active]?.faqs?.length > 0 && (
+                  <a href="#tool-faqs" className="guide-faq-link">
+                    Have questions? View FAQs below ↓
+                  </a>
+                )}
+
+                {selectedDocs.length > 0 && (
+                  <div className="guide-active-file" onClick={() => setSideTab('activity')}>
+                    <FileText size={14} />
+                    <span>{selectedDocs.length} {selectedDocs.length === 1 ? 'file' : 'files'} selected</span>
+                    <ArrowRight size={12} />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="sidebar-activity">
+                <div className="activity-head"><b>Workspace activity</b><MoreHorizontal size={17} /></div>
+                <div className="privacy-note"><LockKeyhole size={16} /><span><b>Private by design</b>Files are processed locally in your browser. Nothing is uploaded to a server.</span></div>
+                <div className="file-summary">
+                  <span>SELECTED FILES</span>
+                  {selectedDocs.length ? selectedDocs.map(doc => (
+                    <div key={doc.id}><FileText size={18} /><p><b>{doc.name}</b><small>{engine.formatBytes(doc.size)}{doc.pages ? ` · ${doc.pages} pages` : ''}</small></p></div>
+                  )) : <div className="empty-state">No files selected yet.</div>}
+                </div>
+                <div className="recent">
+                  <span>RECENT OUTPUTS</span>
+                  {history.length ? history.map(item => (
+                    <div key={item.name + item.time}><FileDown size={15} /><p><b>{item.name}</b><small>{item.tool} · {item.time}</small></p></div>
+                  )) : <div className="empty-state">Your completed files will appear here.</div>}
+                </div>
+              </div>
+            )}
           </aside>
         </div>
       </div>

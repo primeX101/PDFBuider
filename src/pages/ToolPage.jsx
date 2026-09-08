@@ -13,7 +13,6 @@ export default function ToolPage() {
 
   if (!tool) return <Navigate to="/" replace />;
 
-  const Icon = toolIcons[toolId];
   const hasContent = !!content;
 
   return (
@@ -24,38 +23,7 @@ export default function ToolPage() {
         path={`/tools/${toolId}`}
       />
 
-      {/* Rich content section ABOVE the workbench */}
-      {hasContent && (
-        <section className="tool-content-section">
-          <div className="tool-content-inner">
-            <div className="tool-content-header">
-              <div className="tool-content-icon"><Icon size={28} /></div>
-              <div>
-                <span className="tiny-kicker">{tool.group}</span>
-                <h1>{tool.name}</h1>
-                <p className="tool-content-tagline">{tool.description}. Your files stay in your browser — nothing is uploaded to any server.</p>
-              </div>
-            </div>
-
-            <div className="tool-content-body">
-              {content.longDescription.split('\n\n').map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-
-            <div className="tool-howto">
-              <h2>How to {tool.name.toLowerCase().replace('pdf', 'PDF')}</h2>
-              <ol>
-                {content.howTo.map((step, i) => (
-                  <li key={i}>{step}</li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* The actual functional workbench */}
+      {/* Functional workbench with integrated feature guide sidebar */}
       <ToolWorkbench toolId={toolId} />
 
       {/* Ad unit after workbench — only if content is present */}
@@ -63,7 +31,7 @@ export default function ToolPage() {
 
       {/* FAQ section BELOW the workbench */}
       {hasContent && content.faqs?.length > 0 && (
-        <section className="tool-faq-section">
+        <section className="tool-faq-section" id="tool-faqs">
           <div className="tool-faq-inner">
             <h2>Frequently Asked Questions</h2>
             <div className="faq-list">
