@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FileText } from 'lucide-react';
+import { getRecentPosts } from '../data/blogPosts';
 
 const toolLinks = [
   { id: 'merge', label: 'Merge PDF' },
@@ -14,6 +15,8 @@ const toolLinks = [
 ];
 
 export default function Footer() {
+  const latestPosts = getRecentPosts(3);
+
   return (
     <footer className="site-footer">
       <div className="footer-inner">
@@ -38,8 +41,18 @@ export default function Footer() {
           <h4>Company</h4>
           <ul>
             <li><Link to="/about">About Paperly</Link></li>
+            <li><Link to="/blog">Blog</Link></li>
             <li><Link to="/contact">Contact Us</Link></li>
             <li><Link to="/faq">FAQ</Link></li>
+          </ul>
+        </div>
+
+        <div className="footer-col">
+          <h4>Latest Posts</h4>
+          <ul>
+            {latestPosts.map(post => (
+              <li key={post.slug}><Link to={`/blog/${post.slug}`}>{post.title}</Link></li>
+            ))}
           </ul>
         </div>
 
@@ -59,3 +72,4 @@ export default function Footer() {
     </footer>
   );
 }
+

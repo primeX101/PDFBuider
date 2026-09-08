@@ -21,6 +21,7 @@ export default function Navbar() {
         </Link>
         <Link to="/about" onClick={() => setMobileOpen(false)}>About</Link>
         <Link to="/faq" onClick={() => setMobileOpen(false)}>FAQ</Link>
+        <Link to="/blog" onClick={() => setMobileOpen(false)}>Blog</Link>
       </div>
 
       <div className="landing-actions">

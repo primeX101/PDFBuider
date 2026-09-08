@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CloudUpload, Eye, FileDown, FileText, GripVertical, Image, LockKeyhole, MessageSquareText, MoreHorizontal, PanelRight, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, Trash2, WandSparkles, Zap } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, CloudUpload, Eye, FileDown, FileText, GripVertical, Image, LockKeyhole, MessageSquareText, MoreHorizontal, PanelRight, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, Trash2, WandSparkles, Zap } from 'lucide-react';
 import SEO from '../components/SEO';
 import AdUnit from '../components/AdUnit';
+import { getRecentPosts } from '../data/blogPosts';
 
 const toolIcons = {
   merge: Plus, split: Split, compress: Zap, 'pdf-word': FileText,
@@ -31,6 +32,8 @@ const allTools = [
 ];
 
 export default function HomePage() {
+  const latestPosts = getRecentPosts(3);
+
   return (
     <div>
       <SEO
@@ -146,6 +149,33 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* From the Blog */}
+        <section className="home-blog-section">
+          <div className="section-intro">
+            <span className="tiny-kicker">FROM THE BLOG</span>
+            <h2>Tips & <em>guides.</em></h2>
+            <p>Expert articles to help you get more out of your documents.</p>
+          </div>
+          <div className="home-blog-grid">
+            {latestPosts.map(post => (
+              <Link key={post.slug} to={`/blog/${post.slug}`} className="home-blog-card">
+                <div className="home-blog-card-body">
+                  <span className="blog-category-badge">{post.category}</span>
+                  <h3>{post.title}</h3>
+                  <p>{post.excerpt}</p>
+                  <div className="home-blog-card-meta">
+                    <span><Calendar size={12} /> {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    <span><Clock size={12} /> {post.readTime}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '28px' }}>
+            <Link to="/blog" className="secondary">View all articles <ArrowRight size={14} /></Link>
+          </div>
+        </section>
+
         {/* Privacy section */}
         <section className="privacy-section">
           <div className="section-intro">
@@ -175,3 +205,4 @@ export default function HomePage() {
     </div>
   );
 }
+
