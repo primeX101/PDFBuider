@@ -3,7 +3,6 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, User } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
-import AdUnit from '../components/AdUnit';
 import BlogSidebar from '../components/BlogSidebar';
 import { blogPosts, getRelatedPosts } from '../data/blogPosts';
 
@@ -77,13 +76,7 @@ export default function BlogPostPage() {
 
             <div className="blog-article-body">
               {post.body.map((paragraph, i) => (
-                <React.Fragment key={i}>
-                  <p>{paragraph}</p>
-                  {/* Insert ad after the 3rd paragraph on long posts */}
-                  {i === 2 && post.body.length > 5 && (
-                    <AdUnit slot="blog-post-inline" contentReady={true} />
-                  )}
-                </React.Fragment>
+                <p key={i}>{paragraph}</p>
               ))}
             </div>
 
@@ -96,8 +89,7 @@ export default function BlogPostPage() {
             </div>
           </article>
 
-          {/* Ad after article */}
-          <AdUnit slot="blog-post-bottom" contentReady={true} />
+
 
           {/* Related posts */}
           {relatedPosts.length > 0 && (

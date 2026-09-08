@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Calendar, Clock, Tag } from 'lucide-react';
 import SEO from '../components/SEO';
-import AdUnit from '../components/AdUnit';
 import BlogSidebar from '../components/BlogSidebar';
 import { blogPosts, getBlogCategories } from '../data/blogPosts';
 
@@ -95,8 +94,6 @@ export default function BlogPage() {
               </article>
             ))}
           </div>
-
-          <AdUnit slot="blog-listing-bottom" contentReady={filteredPosts.length > 0} />
         </main>
 
         {/* Sidebar */}

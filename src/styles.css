@@ -114,6 +114,8 @@ nav, .landing-nav{height:78px;display:flex;align-items:center;justify-content:sp
 
 /* ═══════════ AD CONTAINER ═══════════ */
 .ad-container{max-width:820px;margin:30px auto;padding:0 25px}
+.ad-container:empty{display:none}
+ins.adsbygoogle[data-ad-status="unfilled"]{display:none !important}
 
 /* ═══════════ BLOG LAYOUT ═══════════ */
 .blog-hero{padding-bottom:30px}

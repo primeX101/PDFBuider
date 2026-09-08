@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock, FileText, FolderOpen, Sparkles, TrendingUp } from 'lucide-react';
 import { getRecentPosts, getBlogCategories } from '../data/blogPosts';
-import AdUnit from './AdUnit';
 
 const popularTools = [
   { id: 'merge', label: 'Merge PDF' },
@@ -94,9 +93,6 @@ export default function BlogSidebar({ currentSlug = null, activeCategory = null,
           Get Started <ArrowRight size={14} />
         </Link>
       </div>
-
-      {/* Ad Unit */}
-      <AdUnit slot="blog-sidebar" contentReady={true} style={{ minHeight: '250px' }} />
     </aside>
   );
 }
