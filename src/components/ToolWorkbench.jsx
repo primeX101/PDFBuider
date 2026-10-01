@@ -63,6 +63,17 @@ export default function ToolWorkbench({ toolId }) {
     setSideTab('guide');
   }, [active]);
 
+  // Track recently used tools in localStorage
+  useEffect(() => {
+    if (!active) return;
+    try {
+      const STORAGE_KEY = 'paperly_recent_tools';
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const updated = [active, ...existing.filter(id => id !== active)].slice(0, 6);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    } catch (_) { /* localStorage may be unavailable */ }
+  }, [active]);
+
   const addFiles = async list => {
     const newFiles = [...list].filter(Boolean);
     if (!newFiles.length) return;
@@ -125,7 +136,16 @@ export default function ToolWorkbench({ toolId }) {
       }
     } catch (error) {
       console.error(error);
-      setToast(error?.message || 'We could not process this document.');
+      const aiTools = new Set(['summary','chat','ocr','contract','invoice','compare']);
+      const isAi = aiTools.has(active);
+      setResult({
+        type: 'error',
+        title: 'Something went wrong',
+        body: error?.message || 'We could not process this document.',
+        tip: isAi
+          ? 'This AI tool uses client-side text extraction. It works best on PDFs with selectable text (not scanned images). Try a different document, or use the OCR tool first to make a scanned PDF readable.'
+          : 'Try a different file, or ensure the PDF is not password-protected and is not corrupted. Reducing file size with the Compress tool may also help.',
+      });
     } finally {
       setBusy(false); setProgress('');
     }

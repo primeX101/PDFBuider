@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, Clock, CloudUpload, Eye, FileDown, FileText, GripVertical, Image, LockKeyhole, MessageSquareText, MoreHorizontal, PanelRight, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, Trash2, WandSparkles, Zap } from 'lucide-react';
 import SEO from '../components/SEO';
 import AdUnit from '../components/AdUnit';
+import RecentTools from '../components/RecentTools';
 import { getRecentPosts } from '../data/blogPosts';
 
 const toolIcons = {
@@ -31,6 +32,40 @@ const allTools = [
   { label: 'AI Workspace', items: [['summary','AI Summary'],['chat','Chat with PDF'],['ocr','OCR PDF'],['compare','Compare Docs'],['contract','Contract Review'],['invoice','Invoice Extraction']] },
 ];
 
+function StatItem({ end, suffix, label }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const duration = 1200;
+        const startTime = performance.now();
+        const tick = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          setCount(Math.floor(ease * end));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.4 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [end]);
+
+  return (
+    <div className="stat-item" ref={ref}>
+      <span className="stat-number">{count}{suffix}</span>
+      <span className="stat-label">{label}</span>
+    </div>
+  );
+}
+
 export default function HomePage() {
   const latestPosts = getRecentPosts(3);
 
@@ -54,6 +89,9 @@ export default function HomePage() {
           </div>
           <div className="trusted"><ShieldCheck size={15} /><span>Private, browser-based processing · No account required</span></div>
         </section>
+
+        {/* Recently used tools — shown only to returning users */}
+        <RecentTools />
 
         {/* Workspace preview */}
         <section className="home-workspace">
@@ -98,6 +136,14 @@ export default function HomePage() {
               );
             })}
           </div>
+        </section>
+
+        {/* Stats counter — social proof numbers */}
+        <section className="stats-section">
+          <StatItem end={21} suffix="+" label="Free PDF tools" />
+          <StatItem end={35} suffix="+" label="Expert guides" />
+          <StatItem end={100} suffix="%" label="Browser-based processing" />
+          <StatItem end={0} suffix="" label="Accounts required" />
         </section>
 
         <AdUnit slot="home-below-tools" contentReady={true} />
