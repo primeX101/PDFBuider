@@ -1,10 +1,13 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
 import ToolWorkbench, { toolsById } from '../components/ToolWorkbench';
 import ToolEditorialContent from '../components/ToolEditorialContent';
 import AdUnit from '../components/AdUnit';
 import { toolContent } from '../data/toolContent';
+
+const BASE_URL = 'https://www.amprimedev.xyz';
 
 export default function ToolPage() {
   const { toolId } = useParams();
@@ -13,13 +16,49 @@ export default function ToolPage() {
 
   if (!tool) return <Navigate to="/" replace />;
 
+  const pageTitle = content?.title || `${tool.name} — Free Online Tool`;
+  const pageDesc = content?.metaDescription || tool.description;
+
   return (
     <div className="tool-page">
       <SEO
-        title={content?.title || tool.name}
-        description={content?.metaDescription || tool.description}
+        title={pageTitle}
+        description={pageDesc}
         path={`/tools/${toolId}`}
       />
+
+      {/* SoftwareApplication structured data — enables Google rich results */}
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: pageTitle,
+            description: pageDesc,
+            url: `${BASE_URL}/tools/${toolId}`,
+            applicationCategory: 'UtilitiesApplication',
+            operatingSystem: 'Web Browser',
+            browserRequirements: 'Requires JavaScript. Works in Chrome, Firefox, Edge, Safari.',
+            offers: {
+              '@type': 'Offer',
+              price: '0',
+              priceCurrency: 'USD',
+            },
+            featureList: [
+              'No file upload required',
+              'Browser-based processing',
+              'No account required',
+              'No watermarks',
+              '100% private and secure',
+            ],
+            publisher: {
+              '@type': 'Organization',
+              name: 'Paperly by AmprimeDev',
+              url: BASE_URL,
+            },
+          })}
+        </script>
+      </Helmet>
 
       {/* Functional workbench with integrated feature guide, FAQ & activity sidebar */}
       <ToolWorkbench toolId={toolId} />
@@ -32,3 +71,4 @@ export default function ToolPage() {
     </div>
   );
 }
+

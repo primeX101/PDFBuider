@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, FileDown, FileText, GripVertical, Image, LockKeyhole, MessageSquareText, Plus, RotateCw, Search, ShieldCheck, Sparkles, Split, Table2, PanelRight, Trash2, WandSparkles, Zap } from 'lucide-react';
 
@@ -64,8 +65,25 @@ export default function ToolEditorialContent({ toolId, content }) {
   const related = (relatedMap[toolId] || []).filter(id => toolNames[id]);
   const name = toolNames[toolId] || 'This Tool';
 
+  // Build FAQPage JSON-LD from FAQ data
+  const faqSchema = content.faqs && content.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: content.faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  } : null;
+
   return (
     <section className="tool-editorial" aria-label="About this tool">
+      {/* FAQPage structured data — enables rich snippet accordions in Google Search */}
+      {faqSchema && (
+        <Helmet>
+          <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        </Helmet>
+      )}
       {content.longDescription && (
         <div className="tool-editorial-desc">
           <h2>About {name}</h2>

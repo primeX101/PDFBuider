@@ -64,7 +64,20 @@ export default function BlogPostPage() {
             }
           })}
         </script>
+        {/* BreadcrumbList — shows "Home > Blog > Title" in Google search results */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.amprimedev.xyz' },
+              { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.amprimedev.xyz/blog' },
+              { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.amprimedev.xyz/blog/${post.slug}` },
+            ],
+          })}
+        </script>
       </Helmet>
+
 
       {/* Breadcrumb */}
       <div className="blog-breadcrumb">
