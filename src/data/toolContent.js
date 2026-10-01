@@ -122,7 +122,7 @@ Paperly reads the complete page structure — text, graphics, annotations, and m
   },
 
   compress: {
-    title: 'Compress PDF Online — Reduce PDF File Size',
+    title: 'Compress PDF Free Online — Reduce File Size Up to 80% Instantly',
     metaDescription: 'Shrink PDF file size by optimizing internal objects and removing redundancies. Paperly compresses PDFs in your browser — free, fast, and private.',
     longDescription: `Large PDF files are difficult to email, slow to upload, and consume excessive storage space. Paperly's Compress PDF tool reduces file size by optimizing the internal object structure of your document, removing redundant data, and streamlining the PDF for efficient storage and sharing.
 
@@ -217,7 +217,7 @@ All processing occurs within your browser. The PDF text is extracted and the Wor
   },
 
   'pdf-excel': {
-    title: 'Convert PDF to Excel Online — Export PDF Data to Spreadsheets',
+    title: 'PDF to Excel Converter — Extract Tables & Data Free Online',
     metaDescription: 'Extract text and data from PDF documents into Excel (.xlsx) workbooks. Paperly converts locally in your browser — private and free.',
     longDescription: `Financial reports, invoices, inventory lists, and data tables are often locked inside PDF files, making it difficult to analyze or manipulate the data. Paperly's PDF to Excel tool extracts text content from your PDF and organizes it into a spreadsheet format that you can open in Microsoft Excel, Google Sheets, or any compatible application.
 
@@ -263,7 +263,7 @@ Processing happens entirely within your browser. Whether you are converting a co
   },
 
   'pdf-jpg': {
-    title: 'Convert PDF to JPG Online — Render PDF Pages as Images',
+    title: 'PDF to JPG Converter — Convert PDF Pages to Images Free Online',
     metaDescription: 'Convert each page of a PDF into a high-quality JPG image. Paperly renders pages in your browser — fast, free, and completely private.',
     longDescription: `There are many situations where you need PDF pages as images — embedding them in a website, including them in a presentation, posting on social media, or creating thumbnails for a document library. Paperly's PDF to JPG tool renders each page of your PDF as a high-quality JPEG image.
 
@@ -353,7 +353,7 @@ The conversion runs entirely in your browser. Whether your presentation contains
   },
 
   summary: {
-    title: 'AI Document Summary — Get Key Points From Any PDF',
+    title: 'AI PDF Summarizer Free — Get Key Points From Any Document Instantly',
     metaDescription: 'Generate an executive summary, key points, and keywords from any PDF document using AI. Paperly analyzes documents in your browser — private and free.',
     longDescription: `Reading through long PDF documents to find the main points can be time-consuming, especially when you are reviewing multiple documents under deadline pressure. Paperly's AI Summary tool analyzes the text content of your PDF and generates a concise executive summary, a list of key points, and relevant keyword terms.
 
@@ -377,7 +377,7 @@ Importantly, all analysis happens within your browser. The document text is proc
   },
 
   chat: {
-    title: 'Chat With Your PDF — Ask Questions About Any Document',
+    title: 'Chat With PDF Free — Ask AI Questions About Any Document',
     metaDescription: 'Ask questions about your PDF document and get answers based on its content. Paperly\'s Chat tool works in your browser — private and free.',
     longDescription: `Sometimes you need a specific answer from a long document rather than a broad summary. Paperly's Chat with PDF tool lets you ask natural-language questions about your document and receive targeted answers drawn from the text content.
 
@@ -401,7 +401,7 @@ Because the analysis runs entirely in your browser, you can confidently ask ques
   },
 
   ocr: {
-    title: 'OCR PDF — Extract Text From Scanned Documents',
+    title: 'OCR PDF Free Online — Convert Scanned Documents to Searchable Text',
     metaDescription: 'Use optical character recognition to extract readable text from scanned PDF documents and images. Paperly OCR runs in your browser — private and free.',
     longDescription: `Scanned documents, photographed pages, and image-based PDFs contain visual representations of text but lack selectable, searchable text layers. Paperly's OCR (Optical Character Recognition) tool analyzes each page of your scanned PDF and recognizes the text within the images, making it available for copying, searching, and further processing.
 
@@ -448,7 +448,7 @@ Both documents are processed entirely in your browser. Whether you are comparing
   },
 
   contract: {
-    title: 'Contract Review — Find Risks and Deadlines in Legal Documents',
+    title: 'AI Contract Review Free — Find Risks & Deadlines in Legal Docs Instantly',
     metaDescription: 'Automatically scan contracts for risk language, obligation clauses, and important dates. Paperly reviews documents in your browser — private and free.',
     longDescription: `Reviewing contracts for potential risks, obligations, and critical deadlines is a time-intensive but essential task. Paperly's Contract Review tool automates the initial screening by scanning your document for common risk-related language, obligation phrases, and date references.
 
@@ -472,7 +472,7 @@ The entire analysis runs within your browser. Contract text is never sent to any
   },
 
   invoice: {
-    title: 'Invoice Data Extraction — Pull Key Fields From PDF Invoices',
+    title: 'PDF Invoice Extractor Free — Pull Data From Invoices Automatically',
     metaDescription: 'Automatically extract vendor names, invoice numbers, amounts, and dates from PDF invoices. Paperly processes invoices in your browser — private and free.',
     longDescription: `Processing invoices manually — reading each one to find the vendor name, invoice number, total amount, and due date — is tedious and error-prone, especially when dealing with high volumes. Paperly's Invoice Extraction tool automates this process by scanning your PDF invoice and pulling out the key fields.
 

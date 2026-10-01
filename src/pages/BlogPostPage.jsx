@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, User } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, User, Zap } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
 import AdUnit from '../components/AdUnit';
@@ -18,9 +18,21 @@ function BodyBlock({ block, index }) {
     case 'ul': return <ul>{(block.items || []).map((li, i) => <li key={i}>{li}</li>)}</ul>;
     case 'ol': return <ol>{(block.items || []).map((li, i) => <li key={i}>{li}</li>)}</ol>;
     case 'callout': return <blockquote className="blog-callout"><p>{block.text}</p></blockquote>;
+    case 'tool-cta': return (
+      <div className="blog-tool-cta">
+        <div className="blog-tool-cta-text">
+          <Zap size={16} />
+          <span>{block.text || 'Try this free on Paperly'}</span>
+        </div>
+        <Link to={`/tools/${block.tool}`} className="blog-tool-cta-btn">
+          Try it free <ArrowRight size={14} />
+        </Link>
+      </div>
+    );
     default: return <p>{block.text || block}</p>;
   }
 }
+
 
 export default function BlogPostPage() {
   const { slug } = useParams();
@@ -124,7 +136,23 @@ export default function BlogPostPage() {
               </div>
             </div>
 
+            {/* Related tools CTA — internal links to tool pages */}
+            {post.relatedTools && post.relatedTools.length > 0 && (
+              <div className="blog-try-tools">
+                <h3 className="blog-try-tools-heading">Try these free Paperly tools</h3>
+                <div className="blog-try-tools-grid">
+                  {post.relatedTools.map(({ tool, label }) => (
+                    <Link key={tool} to={`/tools/${tool}`} className="blog-try-tool-card">
+                      <span className="blog-try-tool-label">{label}</span>
+                      <span className="blog-try-tool-action">Try free <ArrowRight size={13} /></span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Tags */}
+
             <div className="blog-tags">
               <Tag size={14} />
               {post.tags.map(tag => (
