@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
       <section className="content-hero">
         <span className="tiny-kicker">LEGAL</span>
         <h1>Privacy Policy</h1>
-        <p>Last updated: August 2026</p>
+        <p>Last updated: October 2025</p>
       </section>
 
       <article className="content-body legal-content">
