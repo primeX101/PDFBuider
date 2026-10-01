@@ -62,8 +62,9 @@ function App() {
             </Route>
           </Routes>
         </Suspense>
+        {/* CookieConsent must be INSIDE BrowserRouter — it uses <Link> */}
+        <CookieConsent />
       </BrowserRouter>
-      <CookieConsent />
     </HelmetProvider>
   );
 }
