@@ -3,8 +3,24 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, User } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
+import AdUnit from '../components/AdUnit';
 import BlogSidebar from '../components/BlogSidebar';
 import { blogPosts, getRelatedPosts } from '../data/blogPosts';
+
+/** Renders a single body block — supports string (legacy) and typed object */
+function BodyBlock({ block, index }) {
+  // Legacy: plain string → render as paragraph
+  if (typeof block === 'string') return <p>{block}</p>;
+
+  switch (block.type) {
+    case 'h2': return <h2>{block.text}</h2>;
+    case 'h3': return <h3>{block.text}</h3>;
+    case 'ul': return <ul>{(block.items || []).map((li, i) => <li key={i}>{li}</li>)}</ul>;
+    case 'ol': return <ol>{(block.items || []).map((li, i) => <li key={i}>{li}</li>)}</ol>;
+    case 'callout': return <blockquote className="blog-callout"><p>{block.text}</p></blockquote>;
+    default: return <p>{block.text || block}</p>;
+  }
+}
 
 export default function BlogPostPage() {
   const { slug } = useParams();
@@ -31,6 +47,7 @@ export default function BlogPostPage() {
             headline: post.title,
             description: post.excerpt,
             datePublished: post.date,
+            dateModified: post.dateModified || post.date,
             author: {
               '@type': 'Organization',
               name: post.author,
@@ -74,10 +91,24 @@ export default function BlogPostPage() {
               </div>
             </header>
 
+            {/* Article body — supports both legacy string[] and structured block[] */}
             <div className="blog-article-body">
-              {post.body.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
+              {post.body.map((block, i) => (
+                <React.Fragment key={i}>
+                  <BodyBlock block={block} index={i} />
+                  {/* Mid-article ad after the 4th block */}
+                  {i === 3 && <AdUnit slot="blog-mid-article" contentReady={true} />}
+                </React.Fragment>
               ))}
+            </div>
+
+            {/* Author bio */}
+            <div className="blog-author-bio">
+              <div className="author-avatar-circle">A</div>
+              <div className="author-bio-text">
+                <strong className="author-bio-name">{post.author}</strong>
+                <p>The Paperly editorial team writes practical guides about PDF workflows, document management, and privacy-first software. We build browser-based tools used by professionals, students, and businesses worldwide.</p>
+              </div>
             </div>
 
             {/* Tags */}
@@ -88,8 +119,6 @@ export default function BlogPostPage() {
               ))}
             </div>
           </article>
-
-
 
           {/* Related posts */}
           {relatedPosts.length > 0 && (
@@ -122,3 +151,5 @@ export default function BlogPostPage() {
     </div>
   );
 }
+
+
