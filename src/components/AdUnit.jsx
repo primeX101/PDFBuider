@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { loadAdSense } from '../utils/adsense';
 
 /**
  * Gated ad component — only renders when contentReady is true.
@@ -11,13 +12,14 @@ export default function AdUnit({ slot, format = 'auto', contentReady = false, st
 
   useEffect(() => {
     if (!contentReady || pushed.current) return;
+    loadAdSense();
     try {
       if (adRef.current && window.adsbygoogle) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
         pushed.current = true;
       }
     } catch (e) {
-      // AdSense may not be loaded in dev
+      // Handled silently
     }
   }, [contentReady]);
 

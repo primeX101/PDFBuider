@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cookie, Settings, X } from 'lucide-react';
+import { loadAdSense } from '../utils/adsense';
 
 const STORAGE_KEY = 'paperly_cookie_consent';
 
@@ -19,14 +20,23 @@ export default function CookieConsent() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (!stored) setVisible(true); // first visit — show banner
+      if (!stored) {
+        setVisible(true); // first visit — show banner
+      } else if (stored === 'all') {
+        loadAdSense();
+      }
     } catch (_) {
       setVisible(true);
     }
   }, []);
 
   const save = (value) => {
-    try { localStorage.setItem(STORAGE_KEY, value); } catch (_) {}
+    try {
+      localStorage.setItem(STORAGE_KEY, value);
+      if (value === 'all') {
+        loadAdSense();
+      }
+    } catch (_) {}
     setVisible(false);
     setShowManage(false);
   };
